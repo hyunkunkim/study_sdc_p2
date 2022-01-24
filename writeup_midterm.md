@@ -7,14 +7,18 @@ This writeup shows how I followed the instructions for the SDC course and implem
 
 ## Section 1 : Compute Lidar Point-Cloud from Range Image
 * ### Visualize range image channels (ID_S1_EX1)
-  * Implemented `show_range_image()` inside `student/objdet_pcl.py` file.
+  * Implemented function `show_range_image()` inside the file `student/objdet_pcl.py`.
   * Extracted lidar data and range image for the roof-mounted lidar as in course example C1-5-1.
   * range and intensity data is rescaled and represented in `np.uint8` format.
   * `epsilon=0.001` is added in the above rescaling process to prevent division by zero.  
   ![range image](/img/s1_ex1_range_img.png)
 * ### Visualize lidar point-cloud (ID_S1_EX2)
-
-
+  * Implemented `show_pcl()` inside the file `student/objdet_pcl.py`.
+  * Creates visualization of point-cloud data in open3d window as in the image below.
+    * ![pcl visualization](/img/s1_ex2_run.png)
+  * The image below shows various vehicles sorted by how recognizable it is and how many point-cloud it has.
+    * ![various vehicles](/img/s1_ex2_vehicles.png)
+  
 ## Section 2 : Create Birds-Eye View from Lidar PCL 
 
 

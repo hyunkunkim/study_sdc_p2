@@ -43,6 +43,10 @@ This writeup shows how I followed the instructions for the SDC course and implem
   
 
 ## Section 3 : Model-based Object Detection in BEV Image
+  * ### Add a second model from a GitHub repo (ID_S3_EX1)
+  * ### Extract 3D bounding boxes from model response (ID_S3_EX2)
+  * ### 
+
 
 
 ## Section 4 : Performance Evaluation for Object Detection

@@ -24,7 +24,9 @@ This writeup shows how I followed the instructions for the SDC course and implem
   * Also, rectangular shape and oval shape seen from BEV are also a good feature for vehicles.
   
 ## Section 2 : Create Birds-Eye View from Lidar PCL 
-
+  * Implemented `bev_from_pcl()` inside the file `student/objdet_pcl.py`.
+  * Creates BEV representation from pcl data in sensor coordinates as shown below.
+    * ![sensor2bev coordinate transform](/img/s2_e1_run.png)
 
 ## Section 3 : Model-based Object Detection in BEV Image
 

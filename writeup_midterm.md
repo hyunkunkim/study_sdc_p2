@@ -32,9 +32,14 @@ This writeup shows how I followed the instructions for the SDC course and implem
     * Implemented part of `bev_from_pcl()` inside the file `student/objdet_pcl.py`.
     * Creates intensity layer from BEV transformed point cloud data as shown below.
       * ![intensity layer](/img/s2_ex2_run.png)
-    * As you can see, the intensity values are in `np.uint8` format. To cut the extreme values, I've only 2% ~ 98% percentile values, and rescaled them.
+    * As you can see, the intensity values are in `np.uint8` format. To cut the extreme values, I've only 2% ~ 98% percentile values, and rescaled them accordingly.
       * ![intensity in u8](/img/s2_ex2_u8.png)
   * ### Compute height layer of the BEV map (ID_S2_EX3)
+    * Implemented part of `bev_from_pcl()` inside the file `student/objdet_pcl.py`.
+    * Creates height layer from BEV transformed point cloud data as shown below.
+      * ![height layer](/img/s2_ex3_run.png)
+    * As you can see, the height values are in `np.uint8` format. To cut the extreme values, I've only 2% ~ 98% percentile values, and rescaled them accordingly.
+      * ![height in u8](/img/s2_ex3_u8.png)
   
 
 ## Section 3 : Model-based Object Detection in BEV Image

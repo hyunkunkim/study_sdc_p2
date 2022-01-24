@@ -1,0 +1,5 @@
+*__pycache__
+*.ipynb_checkpoints/
+dataset/
+tools/objdet_models/**/pretrained/
+memo.txt

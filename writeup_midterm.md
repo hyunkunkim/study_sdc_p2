@@ -18,6 +18,8 @@ This writeup shows how I followed the instructions for the SDC course and implem
     * ![pcl visualization](/img/s1_ex2_run.png)
   * The image below shows various vehicles sorted by how recognizable it is and how many point-cloud it has.
     * ![various vehicles](/img/s1_ex2_vehicles.png)
+  * The image below shows vehicles varying number of point-clouds and view directions.
+    * ![various vehicles2](/img/s1_ex2_vehicles2.png)
   
 ## Section 2 : Create Birds-Eye View from Lidar PCL 
 

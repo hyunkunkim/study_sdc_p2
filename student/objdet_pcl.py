@@ -18,6 +18,8 @@ import torch
 # add project directory to python path to enable relative imports
 import os
 import sys
+import zlib
+
 PACKAGE_PARENT = '..'
 SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
 sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
@@ -29,6 +31,15 @@ from tools.waymo_reader.simple_waymo_open_dataset_reader import dataset_pb2, lab
 # object detection tools and helper functions
 import misc.objdet_tools as tools
 
+# Example C1-5-1
+def load_range_data(frame, lidar_name):
+    lidar = [obj for obj in frame.lasers if obj.name == lidar_name][0]  # get laser data structure from frame
+    range_data = []
+    if len(lidar.ri_return1.range_image_compressed) > 0:  # use first response
+        range_data = dataset_pb2.MatrixFloat()
+        range_data.ParseFromString(zlib.decompress(lidar.ri_return1.range_image_compressed))
+        range_data = np.array(range_data.data).reshape(range_data.shape.dims)
+    return range_data
 
 # visualize lidar point-cloud
 def show_pcl(pcl):
@@ -53,25 +64,30 @@ def show_pcl(pcl):
 
 # visualize range image
 def show_range_image(frame, lidar_name):
-
     ####### ID_S1_EX1 START #######     
     #######
     print("student task ID_S1_EX1")
-
     # step 1 : extract lidar data and range image for the roof-mounted lidar
-    
+    rd = load_range_data(frame, lidar_name) # load_range_data() is from course example C1-5-1
+
     # step 2 : extract the range and the intensity channel from the range image
-    
+    rd_range = rd[:, :, 0]
+    rd_intensity = rd[:, :, 1]
+
     # step 3 : set values <0 to zero
-    
+    rd_range[rd_range < 0] = 0
+    rd_intensity[rd_intensity < 0] = 0
+
+    epsilon = 0.001
     # step 4 : map the range channel onto an 8-bit scale and make sure that the full range of values is appropriately considered
-    
+    rd_range = rd_range * 255 / max(np.amax(rd_range) - np.amin(rd_range), epsilon)
+
     # step 5 : map the intensity channel onto an 8-bit scale and normalize with the difference between the 1- and 99-percentile to mitigate the influence of outliers
-    
+    rd_intensity = rd_intensity * 255 / max(np.percentile(rd_intensity, 99) - np.percentile(rd_intensity, 1), epsilon)
+
     # step 6 : stack the range and intensity image vertically using np.vstack and convert the result to an unsigned 8-bit integer
-    
-    img_range_intensity = [] # remove after implementing all steps
-    #######
+    img_range_intensity = np.vstack((rd_range, rd_intensity)).astype(np.uint8)
+
     ####### ID_S1_EX1 END #######     
     
     return img_range_intensity

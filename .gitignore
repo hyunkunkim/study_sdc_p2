@@ -3,4 +3,5 @@
 venv/
 dataset/
 tools/objdet_models/**/pretrained/
+results/
 memo.txt

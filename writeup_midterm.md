@@ -51,7 +51,10 @@ This writeup shows how I followed the instructions for the SDC course and implem
     * If inspected with debugging tool in PyCharm as shown below, we can see that the detection model works as expected.
       * ![debug detection](/img/s3_ex1_debug.png)
   * ### Extract 3D bounding boxes from model response (ID_S3_EX2)
-  * ### 
+    * Created a function `bev2meters()` in `misc/objdet_tools.py` to transform birds-eye view pixel coordinate to meters.
+    * Converted model output to expected bounding box format in the `detect_objects()` function.
+    * As you can see from the image below it works as expected.
+      * ![detection result](/img/s3_ex2_run.png)
 
 
 

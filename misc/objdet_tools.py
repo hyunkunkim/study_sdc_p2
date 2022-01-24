@@ -240,11 +240,11 @@ def project_detections_into_bev(bev_map, detections, configs, color=[]):
         bev_corners[3, 1] = y + w / 2 * sin_yaw + l / 2 * cos_yaw
         
         # draw object as box
-        corners_int = bev_corners.reshape(-1, 1, 2).astype(int)
+        corners_int = bev_corners.reshape(-1, 1, 2).astype(np.int)
         cv2.polylines(bev_map, [corners_int], True, color, 2)
 
         # draw colored line to identify object front
-        corners_int = bev_corners.reshape(-1, 2)
+        corners_int = bev_corners.reshape(-1, 2).astype(np.int)
         cv2.line(bev_map, (corners_int[0, 0], corners_int[0, 1]), (corners_int[3, 0], corners_int[3, 1]), (255, 255, 0), 2)
 
 
@@ -433,7 +433,7 @@ def project_labels_into_camera(camera_calibration, image, labels, labels_valid, 
             colour = (255, 0, 0)
 
         # only show labels of type "vehicle"
-        if(label.type == label_pb2.Label.Type.TYPE_VEHICLE):
+        if(label.type == label_pb2.Label.TYPE_VEHICLE):
             waymo_utils.draw_3d_box(image, vehicle_to_image, label, colour=colour)
 
     # resize image

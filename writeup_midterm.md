@@ -63,7 +63,15 @@ This writeup shows how I followed the instructions for the SDC course and implem
     * Implement part of `measure_detection_performance()` in `objdet_eval.py`
     * Implement IOU calculations using `Polygon` inside the `shapely` module as shown in the image below.
       * ![iou debug](/img/s4_ex1_debug.png)
+    * Also included `.min_iou=0.5` as default configuration.
   * ### Compute false-negatives and false-positives (ID_S4_EX2)
-    * 
+    * Implement part of `measure_detection_performance()` in `objdet_eval.py`
+    * calculates overall performance as shown below.
+      * ![det_performance](/img/s4_ex2_debug.png)
   * ### Compute precision and recall (ID_S4_EX3)
-    * 
+    * Implemented `compute_performance_stats()` in `objdet_eval.py` file.
+    * Calculates precision, recall and other meaningful evaluation metrics as shown below.
+      * ![metrics](/img/s4_ex3_run.png)
+    * Just to check the precision, recall is calculated as it is supposed to, I've double-checked the answer with the GT label. 
+      * ![metrics check](/img/s4_ex3_check.png)
+      * precision and recall are equal to 1 just as expected.

@@ -98,7 +98,7 @@ def show_range_image(frame, lidar_name):
 
 
 # create birds-eye view of lidar data
-def bev_from_pcl(lidar_pcl, configs, show=True):
+def bev_from_pcl(lidar_pcl, configs, show=False):
 
     # remove lidar points outside detection area and with too low reflectivity
     mask = np.where((lidar_pcl[:, 0] >= configs.lim_x[0]) & (lidar_pcl[:, 0] <= configs.lim_x[1]) &
@@ -157,7 +157,7 @@ def bev_from_pcl(lidar_pcl, configs, show=True):
     intensity_layer_u8 = (intensity_layer*256).astype(np.uint8)
 
     cv2.imshow('img_intensity', intensity_layer_u8)
-    cv2.waitKey(0)
+    cv2.waitKey(1)
     ####### ID_S2_EX2 END ####### 
 
 
@@ -185,7 +185,7 @@ def bev_from_pcl(lidar_pcl, configs, show=True):
     img_height_u8 = (height_layer * 256).astype(np.uint8)
 
     cv2.imshow('img_height', img_height_u8)
-    cv2.waitKey(0)
+    cv2.waitKey(1)
 
     # Compute density layer of the BEV map
     density_map = np.zeros((configs.bev_height + 1, configs.bev_width + 1))

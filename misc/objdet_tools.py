@@ -191,7 +191,19 @@ def pcl_from_range_image(frame, lidar_name):
     return points_all
 
 
-
+# birds-eye view pixel coordinate to meters
+def bev2meters(detections, configs):
+    meter_detections = []
+    for row in detections:
+        _id, _x, _y, _z, _h, _w, _l, _yaw = row
+        y = _x / configs.bev_width * (configs.lim_y[1] - configs.lim_y[0]) + configs.lim_y[0]
+        x = _y / configs.bev_height * (configs.lim_x[1] - configs.lim_x[0]) + configs.lim_x[0]
+        z = _z - configs.lim_z[0]
+        w = _w * (configs.lim_y[1] - configs.lim_y[0]) / configs.bev_width
+        l = _l * (configs.lim_x[1] - configs.lim_x[0]) / configs.bev_height
+        yaw = -_yaw
+        meter_detections.append([1, x, y, z, _h, w, l, yaw])
+    return meter_detections
 
 ##################
 # BIRDS-EYE VIEW

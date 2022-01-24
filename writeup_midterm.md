@@ -44,6 +44,12 @@ This writeup shows how I followed the instructions for the SDC course and implem
 
 ## Section 3 : Model-based Object Detection in BEV Image
   * ### Add a second model from a GitHub repo (ID_S3_EX1)
+    * I've included [SFA3D](https://github.com/maudzung/SFA3D) repository as submmodule by running the below code in project directory.
+      * ```git submodule add https://github.com/maudzung/SFA3D.git```
+    * Edited `load_configs_model()` as shown below to serve our purpose in this project.
+      * ![resnet config](/img/s3_ex1_config.png)
+    * If inspected with debugging tool in PyCharm as shown below, we can see that the detection model works as expected.
+      * ![debug detection](/img/s3_ex1_debug.png)
   * ### Extract 3D bounding boxes from model response (ID_S3_EX2)
   * ### 
 

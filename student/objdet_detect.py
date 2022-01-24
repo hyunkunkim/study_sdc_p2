@@ -25,11 +25,10 @@ sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
 # model-related
 from tools.objdet_models.resnet.models import fpn_resnet
 from tools.objdet_models.resnet.utils.evaluation_utils import decode, post_processing 
-
 from tools.objdet_models.darknet.models.darknet2pytorch import Darknet as darknet
 from tools.objdet_models.darknet.utils.evaluation_utils import post_processing_v2
-
-
+from tools.objdet_models.resnet.utils.torch_utils import _sigmoid
+from misc.objdet_tools import bev2meters
 # load model-related parameters into an edict
 def load_configs_model(model_name='darknet', configs=None):
 
@@ -59,11 +58,33 @@ def load_configs_model(model_name='darknet', configs=None):
 
     elif model_name == 'fpn_resnet':
         ####### ID_S3_EX1-3 START #######     
-        #######
         print("student task ID_S3_EX1-3")
+        configs.arch = 'fpn_resnet'
+        configs.model_path = os.path.join(parent_path, 'tools', 'objdet_models', 'resnet')
+        configs.pretrained_filename = os.path.join(configs.model_path, 'pretrained', 'fpn_resnet_18_epoch_300.pth')
+        configs.pin_memory = True
+        configs.conf_thresh = 0.5
+        configs.distributed = False  # For testing on 1 GPU only
+        configs.input_size = (608, 608)
+        configs.hm_size = (608, 608)
+        configs.down_ratio = 4
+        configs.max_objects = 50
+        configs.head_conv = 64
+        configs.num_layers = 18
+        configs.num_classes = 3
+        configs.num_center_offset = 2
+        configs.num_z = 1
+        configs.num_dim = 3
+        configs.num_direction = 2  # sin, cos
 
-        #######
-        ####### ID_S3_EX1-3 END #######     
+        configs.heads = {
+            'hm_cen': configs.num_classes,
+            'cen_offset': configs.num_center_offset,
+            'direction': configs.num_direction,
+            'z_coor': configs.num_z,
+            'dim': configs.num_dim
+        }
+        ####### ID_S3_EX1-3 END #######
 
     else:
         raise ValueError("Error: Invalid model name")
@@ -118,7 +139,8 @@ def create_model(configs):
         ####### ID_S3_EX1-4 START #######     
         #######
         print("student task ID_S3_EX1-4")
-
+        model = fpn_resnet.get_pose_net(configs.num_layers, configs.heads, configs.head_conv,
+                                        configs.pretrained_filename)
         #######
         ####### ID_S3_EX1-4 END #######     
     
@@ -152,24 +174,29 @@ def detect_objects(input_bev_maps, model, configs):
             # perform post-processing
             output_post = post_processing_v2(outputs, conf_thresh=configs.conf_thresh, nms_thresh=configs.nms_thresh) 
             detections = []
-            for sample_i in range(len(output_post)):
-                if output_post[sample_i] is None:
+            for sample_idx in range(len(output_post)):
+                if output_post[sample_idx] is None:
                     continue
-                detection = output_post[sample_i]
+                detection = output_post[sample_idx]
                 for obj in detection:
                     x, y, w, l, im, re, _, _, _ = obj
                     yaw = np.arctan2(im, re)
                     detections.append([1, x, y, 0.0, 1.50, w, l, yaw])    
+            return bev2meters(detections, configs)
 
         elif 'fpn_resnet' in configs.arch:
             # decode output and perform post-processing
             
             ####### ID_S3_EX1-5 START #######     
-            #######
             print("student task ID_S3_EX1-5")
+            outputs['hm_cen'] = _sigmoid(outputs['hm_cen'])
+            outputs['cen_offset'] = _sigmoid(outputs['cen_offset'])
 
-            #######
-            ####### ID_S3_EX1-5 END #######     
+            decoded = decode(**outputs)
+            decoded = decoded.cpu().numpy().astype(np.float32)
+
+            output_post = post_processing(decoded, configs)
+            ####### ID_S3_EX1-5 END #######
 
             
 
@@ -180,15 +207,25 @@ def detect_objects(input_bev_maps, model, configs):
     objects = [] 
 
     ## step 1 : check whether there are any detections
-
+    for sample_idx in range(len(output_post)):
+        if output_post[sample_idx] is None:
+            continue
+        detection = output_post[sample_idx]
+        # print(detection)
         ## step 2 : loop over all detections
-        
+        for objs in detection:
+            if len(detection[objs]) == 0:
+                continue
             ## step 3 : perform the conversion using the limits for x, y and z set in the configs structure
-        
-            ## step 4 : append the current object to the 'objects' array
-        
-    #######
-    ####### ID_S3_EX2 START #######   
-    
-    return objects    
+            for obj in detection[objs]:
+                try:
+                    _score, x, y, z, h, w, l, yaw = obj
+                    ## step 4 : append the current object to the 'objects' array
+                    objects.append([1, x, y, z, h, w, l, yaw])
+                except:
+                    pass
+
+        #######
+        ####### ID_S3_EX2 END #######
+    return bev2meters(objects, configs)
 

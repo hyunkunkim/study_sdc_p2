@@ -98,7 +98,7 @@ def show_range_image(frame, lidar_name):
 
 
 # create birds-eye view of lidar data
-def bev_from_pcl(lidar_pcl, configs):
+def bev_from_pcl(lidar_pcl, configs, show=True):
 
     # remove lidar points outside detection area and with too low reflectivity
     mask = np.where((lidar_pcl[:, 0] >= configs.lim_x[0]) & (lidar_pcl[:, 0] <= configs.lim_x[1]) &
@@ -124,7 +124,8 @@ def bev_from_pcl(lidar_pcl, configs):
     cpy_lidar_pcl[:, 1] = np.int_(np.floor(cpy_lidar_pcl[:, 1] / bev_disc) + (configs.bev_width + 1) / 2)
 
     # step 4 : visualize point-cloud using the function show_pcl from a previous task
-    show_pcl(cpy_lidar_pcl)
+    if show:
+        show_pcl(cpy_lidar_pcl)
 
     ####### ID_S2_EX1 END #######
     
@@ -135,19 +136,28 @@ def bev_from_pcl(lidar_pcl, configs):
     print("student task ID_S2_EX2")
 
     ## step 1 : create a numpy array filled with zeros which has the same dimensions as the BEV map
-
+    intensity_layer = np.zeros((configs.bev_height + 1, configs.bev_width + 1))
     # step 2 : re-arrange elements in lidar_pcl_cpy by sorting first by x, then y, then -z (use numpy.lexsort)
+    cpy_lidar_pcl[cpy_lidar_pcl[:, 3] > 1.0, 3] = 1.0
+    intensity_idx = np.lexsort((-cpy_lidar_pcl[:, 3], cpy_lidar_pcl[:, 1], cpy_lidar_pcl[:, 0]))
+    cpy_lidar_pcl = cpy_lidar_pcl[intensity_idx]
 
     ## step 3 : extract all points with identical x and y such that only the top-most z-coordinate is kept (use numpy.unique)
     ##          also, store the number of points per x,y-cell in a variable named "counts" for use in the next task
+    _, indices, counts = np.unique(cpy_lidar_pcl[:, 0:2], axis=0, return_index=True, return_counts=True)
+    lidar_pcl_int = cpy_lidar_pcl[indices]
 
     ## step 4 : assign the intensity value of each unique entry in lidar_top_pcl to the intensity map 
     ##          make sure that the intensity is scaled in such a way that objects of interest (e.g. vehicles) are clearly visible    
     ##          also, make sure that the influence of outliers is mitigated by normalizing intensity on the difference between the max. and min. value within the point cloud
+    intensity_layer[np.int_(lidar_pcl_int[:, 0]), np.int_(lidar_pcl_int[:, 1])] = lidar_pcl_int[:, 3] / (
+            np.percentile(lidar_pcl_int[:, 3], 98) - np.percentile(lidar_pcl_int[:, 3], 2))
 
     ## step 5 : temporarily visualize the intensity map using OpenCV to make sure that vehicles separate well from the background
+    intensity_layer_u8 = (intensity_layer*256).astype(np.uint8)
 
-    #######
+    cv2.imshow('img_intensity', intensity_layer_u8)
+    cv2.waitKey(0)
     ####### ID_S2_EX2 END ####### 
 
 

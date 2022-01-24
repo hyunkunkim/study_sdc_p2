@@ -59,4 +59,11 @@ This writeup shows how I followed the instructions for the SDC course and implem
 
 
 ## Section 4 : Performance Evaluation for Object Detection
-
+  * ### Compute intersection-over-union between labels and detections (ID_S4_EX1)
+    * Implement part of `measure_detection_performance()` in `objdet_eval.py`
+    * Implement IOU calculations using `Polygon` inside the `shapely` module as shown in the image below.
+      * ![iou debug](/img/s4_ex1_debug.png)
+  * ### Compute false-negatives and false-positives (ID_S4_EX2)
+    * 
+  * ### Compute precision and recall (ID_S4_EX3)
+    * 

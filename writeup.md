@@ -52,6 +52,15 @@ Please use this starter template to answer the following questions:
     * As shown in the image below, many measurement (nearly 20) gets initialized, but only few of them gets to be confirmed. Thus it is dealing with ghosts well.
       * ![Association result](/img2/associated_tracks.png)
 
+## Step 4. Measurements
+  * ### Camera measurements
+    * Implemented `in_fov()` method to check if object should be in the field of view (fov).
+    * Implemented `get_hx()` method to use in EKF algorithm 
+      * To stop division by zero, a small number `0.001` is used to insure it is bigger than 0.
+      * Also for the same reason an error is raised if x is zero
+      * ![hx](/img2/hx.png)
+    * updated the code for `generate_measurement()` and in the `Measurement.__init__()` to include camera measurements.
+    * 
 ### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
 
 

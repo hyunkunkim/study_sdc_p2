@@ -37,8 +37,20 @@ Please use this starter template to answer the following questions:
     * There is a single track initialized and deleted as shown in the image below.
       * ![track delete](/img2/track_delete.png)
       * In the above image there is only a single track without track losses in between, which is nice.
-
-
+      
+## Step 3. Association
+  * ### Nearest neighbor data association
+    * The association matrix is initialized in `Associate.associate()` method as below.
+      * ![association matrix](/img2/nnmatrix.png)
+    * With the above matrix, the nearest neighbor association is done inside `Associate.get_closest_track_and_meas()` method.
+      * ![associate](/img2/associate.png)
+    * For the distance we use the Mahalanobis Distance (MHD)
+      * ![MHD](/img2/MHD.png)
+    * For improving execution time, I've implemented gating using chi-square-distribution method.
+    
+  * ### Association Result
+    * As shown in the image below, many measurement (nearly 20) gets initialized, but only few of them gets to be confirmed. Thus it is dealing with ghosts well.
+      * ![Association result](/img2/associated_tracks.png)
 
 ### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
 

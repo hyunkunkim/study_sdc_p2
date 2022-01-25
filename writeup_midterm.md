@@ -75,5 +75,5 @@ This writeup shows how I followed the instructions for the SDC course and implem
     * Calculates precision, recall and other meaningful evaluation metrics as shown below.
       * ![metrics](/img/s4_ex3_run.png)
     * Just to check the precision, recall is calculated as it is supposed to, I've double-checked the answer with the GT label. 
-      * ![metrics check](/img/s4_ex3_check.png)
+      * ![metrics check](/img/s4_ex3_check_resubmit.png)
       * precision and recall are equal to 1 just as expected.

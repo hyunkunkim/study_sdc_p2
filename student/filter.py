@@ -30,7 +30,13 @@ class Filter:
         ############
         # TODO Step 1: implement and return system matrix F
         ############
-
+        dt = self.dt
+        f = np.matrix([[1, 0, 0, dt, 0, 0],
+                       [0, 1, 0, 0, dt, 0],
+                       [0, 0, 1, 0, 0, dt],
+                       [0, 0, 0, 1, 0, 0],
+                       [0, 0, 0, 0, 1, 0],
+                       [0, 0, 0, 0, 0, 1]])
         return 0
         
         ############
@@ -41,9 +47,19 @@ class Filter:
         ############
         # TODO Step 1: implement and return process noise covariance Q
         ############
+        q = self.q
+        dt = self.dt
+        q3 = ((dt ** 3) / 3) * q
+        q2 = ((dt ** 2) / 2) * q
+        q1 = dt * q
 
-        return 0
-        
+        return np.matrix([[q3, 0, 0, q2, 0, 0],
+                          [0, q3, 0, 0, q2, 0],
+                          [0, 0, q3, 0, 0, q2],
+                          [q2, 0, 0, q1, 0, 0],
+                          [0, q2, 0, 0, q1, 0],
+                          [0, 0, q2, 0, 0, q1]])
+
         ############
         # END student code
         ############ 
@@ -53,7 +69,16 @@ class Filter:
         # TODO Step 1: predict state x and estimation error covariance P to next timestep, save x and P in track
         ############
 
-        pass
+        P = track.P
+        x = track.x
+
+        F = self.F()
+
+        x = F * x
+        P = F * P * F.transpose() + self.Q()
+
+        track.set_x(x)
+        track.set_P(P)
         
         ############
         # END student code

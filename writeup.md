@@ -5,9 +5,19 @@ Please use this starter template to answer the following questions:
 ## Step 1. Implement EKF to track a single target with lidar
   * ### implement `predict()` in `student/filter.py`
     * `F()` and `Q()` in n dimension linear motion are defined as in the equation below. (I_n is the identity matrix in n dimension)
-    * ![f](/img2/fqn.png) 
-  * aaa
-    * ![prediction](/img2/prediction_step.png)
+      * ![f](/img2/fqn.png) 
+    * The prediction function use these F, Q values as shown in the equation below.
+      * ![prediction](/img2/prediction_step.png)
+    * We get the P value for prediction from `track.P` 
+    * `predict()` function updates values of _x_ and _P_ by using `track.set_x()`, and `track.set_P()` method respectively.
+  * ### implement `update()` in `student/filter.py`
+    * `gamma()` and `S()` as well as whole update step is defined as in equation below.
+      * ![update](/img2/update_step.png)
+    * `gamma()` function takes in the measurement object `meas` and uses it's specific _h_ matrix by `meas.sensor.get_hx(x)`
+      * This is because in EKF _h_ is used instead of _H_ and this matrix is different for camera and lidar.
+    * `S()` function use _H_ matrix as it is.
+    * `update()` function updates values of _x_ and _P_ by using `track.set_x()`, and `track.set_P()` method respectively. 
+    * 
 
 
 

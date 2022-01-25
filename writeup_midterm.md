@@ -16,12 +16,14 @@ This writeup shows how I followed the instructions for the SDC course and implem
   * Implemented `show_pcl()` inside the file `student/objdet_pcl.py`.
   * Creates visualization of point-cloud data in open3d window as in the image below.
     * ![pcl visualization](/img/s1_ex2_run.png)
+  * The following images of 10 vehicles (6 + 4) are grouped to show different ways vehicles are captured in point-cloud data.
   * The image below shows various Bird Eye View (BEV) vehicle shots sorted by how recognizable it is and how many point-cloud it has.
     * ![various vehicles](/img/s1_ex2_vehicles.png)
   * The image below shows vehicles varying number of point-clouds and view directions.
     * ![various vehicles2](/img/s1_ex2_vehicles2.png)
   * As you can see from the above images, steep height gradient caused by bumpers of the car are very recognizable pattern.  
   * Also, rectangular shape and oval shape seen from BEV are also a good feature for vehicles.
+
   
 ## Section 2 : Create Birds-Eye View from Lidar PCL 
   * ### Convert sensor coordinates to BEV-map coordinates (ID_S2_EX1)

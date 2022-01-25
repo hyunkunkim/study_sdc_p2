@@ -65,8 +65,11 @@ def measure_detection_performance(detections, labels, labels_valid, min_iou=0.5)
                 dist_x, dist_y, dist_z = x - _x, y - _y, z - _z
 
                 ## step 5 : compute the intersection over union (IOU) between label and detection bounding-box
-                int_area = poly.intersection(_poly).area
-                uni_area = poly.area + _poly.area - int_area
+                intersection = poly.intersection(_poly)
+                int_area = intersection.area
+                union = poly.union(_poly)
+                #uni_area = poly.area + _poly.area - int_area
+                uni_area = union.area
                 if uni_area == 0:
                     iou = 0
                 else:
@@ -94,13 +97,16 @@ def measure_detection_performance(detections, labels, labels_valid, min_iou=0.5)
     # compute positives and negatives for precision/recall
     
     ## step 1 : compute the total number of positives present in the scene
-    all_positives = len(detections)
+    #all_positives = len(detections)
+    all_positives = np.sum([1 for valid in labels_valid if valid ])
 
     ## step 2 : compute the number of false negatives
-    false_negatives = np.sum([1 for valid in labels_valid if valid ]) - true_positives
+    #false_negatives = np.sum([1 for valid in labels_valid if valid ]) - true_positives
+    false_negatives = all_positives - true_positives
 
     ## step 3 : compute the number of false positives
-    false_positives = all_positives - true_positives
+    #false_positives = all_positives - true_positives
+    false_positives = len(detections) - true_positives
     
     #######
     ####### ID_S4_EX2 END #######     
@@ -134,10 +140,12 @@ def compute_performance_stats(det_performance_all):
     false_positives = np.sum([pos_neg[3] for pos_neg in pos_negs])
 
     ## step 2 : compute precision
-    precision = true_positives / (true_positives + false_positives + 0.001)
+    #precision = true_positives / (true_positives + false_positives + 0.001)
+    precision = true_positives / (true_positives + false_positives)
 
     ## step 3 : compute recall 
-    recall = true_positives / (true_positives + false_negatives + 0.001)
+    # recall = true_positives / (true_positives + false_negatives + 0.001)
+    recall = true_positives / (true_positives + false_negatives)
 
     #######    
     ####### ID_S4_EX3 END #######     

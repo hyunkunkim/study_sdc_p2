@@ -61,7 +61,8 @@ Please use this starter template to answer the following questions:
     * updated the code for `generate_measurement()` and in the `Measurement.__init__()` to include camera measurements.
   * ### Camera measuremente results
     * The final result after including camera measurement is shown below. 
-      * ![final result](/img2/s4_final_result.png)
+      * ![final result MSE](/img2/s4_final_result.png)
+      * [final result video google-drive link](https://drive.google.com/file/d/1PAz0LBa2Vj3PBkFIu3s4HFQRIkVRe2CB/view?usp=sharing)
       * It deals much better with ghost tracks than the association result from step 3.
       
 ## Conclusion

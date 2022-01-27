@@ -34,6 +34,9 @@
     * There is a single track initialized and deleted as shown in the image below.
       * ![track delete](/img2/track_delete.png)
       * In the above image there is only a single track without track losses in between, which is nice.
+      * Also here is the tracking RMSE results shown below
+      * ![track result](/img2/s2_rmse.png)
+      * The vehicle is tracked well when it was approaching the vehicle, but once it starts go past the vehicle the tracking error goes up.
       
 ## Step 3. Association
   * ### Nearest neighbor data association

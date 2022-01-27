@@ -20,7 +20,6 @@ Please use this starter template to answer the following questions:
   * ### Tracking Result
     * The tracking results are shown as in image below with mean RMSE is 0.35. 
     * ![step1 resut](/img2/step1.png)
-      * I've already implemented other steps when I realized that I forgot to take screenshot for the step 1. The result shown here is thus with the final project code.
     
 
 ## Step 2. Track Mangement
@@ -60,15 +59,18 @@ Please use this starter template to answer the following questions:
       * Also for the same reason an error is raised if x is zero
       * ![hx](/img2/hx.png)
     * updated the code for `generate_measurement()` and in the `Measurement.__init__()` to include camera measurements.
-    * 
+  * ### Camera measuremente results
+    * The final result after including camera measurement is shown below. 
+      * ![final result](/img2/s4_final_result.png)
+      * It deals much better with ghost tracks than the association result from step 3.
+      
+    
 ### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
+## Conclusion
+Implementing the EKF and making it work with camera sensor was most challenging for me as it involves a lot of math. But as it is seen by step 3 and step 4, the result was worth it.  
+with only lidar measurements, there was a lot of ghost tracks, but with camera measurement, it has been reduced.  
+But in a real world scenarios, self driving cars have only a split second to react to dangerous scenarios. It might not have enough time to wait for tentative track to become confirmed track.
 
-
-### 2. Do you see any benefits in camera-lidar fusion compared to lidar-only tracking (in theory and in your concrete results)? 
-
-
-### 3. Which challenges will a sensor fusion system face in real-life scenarios? Did you see any of these challenges in the project?
-
-
-### 4. Can you think of ways to improve your tracking results in the future?
-
+## Future work
+It will be great to include 3-D object detection model's confident score be initial track score as it will help the tracks to confirm important tracks faster.
+Also It would be nice to use deep learning based vehicle trajectory prediction algorithm such as one shown in [here](https://arxiv.org/abs/1805.06771).

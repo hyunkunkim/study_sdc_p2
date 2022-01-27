@@ -1,7 +1,5 @@
 # Writeup: Track 3D-Objects Over Time
 
-Please use this starter template to answer the following questions:
-
 ## Step 1. Implement EKF to track a single target with lidar
   * ### implement `predict()` in `student/filter.py`
     * `F()` and `Q()` in n dimension linear motion are defined as in the equation below. (I_n is the identity matrix in n dimension)

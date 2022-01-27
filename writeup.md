@@ -32,7 +32,7 @@
       * ![handle updated track](/img2/handle_updated_track.png)
   * ### Track Management Result
     * There is a single track initialized and deleted as shown in the image below.
-      * ![track delete](/img2/track_delete.png)
+      * ![track delete](/img2/s2_track_delete.png)
       * In the above image there is only a single track without track losses in between, which is nice.
       * Also here is the tracking RMSE results shown below
       * ![track result](/img2/s2_rmse.png)

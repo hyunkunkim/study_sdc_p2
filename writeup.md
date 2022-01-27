@@ -64,8 +64,6 @@ Please use this starter template to answer the following questions:
       * ![final result](/img2/s4_final_result.png)
       * It deals much better with ghost tracks than the association result from step 3.
       
-    
-### 1. Write a short recap of the four tracking steps and what you implemented there (filter, track management, association, camera fusion). Which results did you achieve? Which part of the project was most difficult for you to complete, and why?
 ## Conclusion
 Implementing the EKF and making it work with camera sensor was most challenging for me as it involves a lot of math. But as it is seen by step 3 and step 4, the result was worth it.  
 with only lidar measurements, there was a lot of ghost tracks, but with camera measurement, it has been reduced.  

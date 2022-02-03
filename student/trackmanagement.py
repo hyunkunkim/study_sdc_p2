@@ -36,27 +36,21 @@ class Track:
         # unassigned measurement transformed from sensor to vehicle coordinates
         # - initialize track state and track score with appropriate values
         ############
-        pos = meas.sensor.sens_to_veh * np.matrix([[meas.z[0][0].item()],
-                                                   [meas.z[1][0].item()],
-                                                   [meas.z[2][0].item()],
-                                                   [1]])
+        pos = meas.sensor.sens_to_veh * np.vstack([meas.z,1])
 
         R = meas.R
         Ppos = M_rot * R * M_rot.transpose()
-        self.x = np.matrix([[pos[0][0].item()],
-                            [pos[1][0].item()],
-                            [pos[2][0].item()],
-                            [0.],
-                            [0.],
-                            [0.]])
+        Pvel = np.matrix([[params.sigma_p44 ** 2, 0, 0],
+                           [0, params.sigma_p55 ** 2, 0],
+                           [0, 0, params.sigma_p66 ** 2]])
 
-        self.P = np.matrix([[9.0e-02, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00],
-                            [0.0e+00, 9.0e-02, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00],
-                            [0.0e+00, 0.0e+00, 6.4e-03, 0.0e+00, 0.0e+00, 0.0e+00],
-                            [0.0e+00, 0.0e+00, 0.0e+00, 2.5e+03, 0.0e+00, 0.0e+00],
-                            [0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 2.5e+03, 0.0e+00],
-                            [0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 0.0e+00, 2.5e+01]])
-        self.P[:3, :3] = Ppos
+        self.x = np.zeros((6, 1))
+        self.x[0:3] = pos[0:3]
+
+        self.P = np.zeros((6, 6))
+        self.P[0:3, 0:3] = Ppos
+        self.P[3:6, 3:6] = Pvel
+
         self.state = 'initialized'
         self.assigned = np.zeros(params.window)
         self.assigned[-1] = 1

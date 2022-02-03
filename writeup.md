@@ -50,7 +50,7 @@
     
   * ### Association Result
     * As shown in the image below, many measurement (nearly 20) gets initialized, but only few of them gets to be confirmed. Thus it is dealing with ghosts well.
-      * ![Association result](/img2/associated_tracks.png)
+      * ![Association result](/img2/s3_associated_tracks.png)
 
 ## Step 4. Measurements
   * ### Camera measurements
